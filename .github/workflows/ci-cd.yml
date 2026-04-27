@@ -24,8 +24,10 @@ jobs:
       - name: Build Frontend Image
         run: docker build -t frontend:latest ./frontend
 
-      - name: Stop Containers (Docker Compose Down)
-        run: docker compose down
+      - name: Cleanup Docker
+        run: |
+          docker compose down -v || true
+          docker rm -f $(docker ps -aq) || true
 
       - name: Run Containers (Docker Compose)
         run: docker compose up -d
