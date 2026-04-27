@@ -24,6 +24,9 @@ jobs:
       - name: Build Frontend Image
         run: docker build -t frontend:latest ./frontend
 
+      - name: Stop Containers (Docker Compose Down)
+        run: docker compose down
+
       - name: Run Containers (Docker Compose)
         run: docker compose up -d
 
