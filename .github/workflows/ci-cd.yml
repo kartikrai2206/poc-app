@@ -24,9 +24,6 @@ jobs:
       - name: Build Frontend Image
         run: docker build -t frontend:latest ./frontend
 
-      - name: Build Nginx Image
-        run: docker build -t nginx:latest ./nginx
-
       - name: Run Containers (Docker Compose)
         run: docker compose up -d
 
