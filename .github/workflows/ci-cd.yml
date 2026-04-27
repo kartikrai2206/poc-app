@@ -1,0 +1,42 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend Image
+        run: docker build -t backend:latest ./backend
+
+      - name: Build Frontend Image
+        run: docker build -t frontend:latest ./frontend
+
+      - name: Build Nginx Image
+        run: docker build -t nginx:latest ./nginx
+
+      - name: Run Containers (Docker Compose)
+        run: docker compose up -d
+
+      - name: Wait for Services
+        run: sleep 15
+
+      - name: Health Check
+        run: |
+          curl -f http://localhost/api || exit 1
+
+      - name: Stop Containers
+        if: always()
+        run: docker compose down
