@@ -50,7 +50,7 @@ pipeline {
                     echo "Waiting for services..."
                     sleep 15
 
-                    curl -f http://localhost || exit 1
+                    curl -f http://localhost/api || exit 1
                     '''
                 }
             }
